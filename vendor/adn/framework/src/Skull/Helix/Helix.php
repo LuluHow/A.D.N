@@ -2,6 +2,8 @@
 
 namespace Skull\Helix;
 
+use Skull\Http\Path;
+
 class Helix
 {
     /**
@@ -31,6 +33,13 @@ class Helix
      * @var string
      */
     public static $tmpFileContent;
+
+    /**
+     * Path of application.
+     *
+     * @var string
+     */
+    protected static $path;
 
     /**
      * Create new instance.
@@ -181,7 +190,7 @@ class Helix
     public static function writeCachedFile()
     {
         static::$cachedFile = md5(static::$filename) . ".php";
-        file_put_contents(__DIR__ . '/../../app/resources/cache/' . static::$cachedFile, static::$tmpFileContent);
+        file_put_contents(static::$path . '/app/resources/cache/' . static::$cachedFile, static::$tmpFileContent);
     }
 
     /**
@@ -190,8 +199,9 @@ class Helix
      * @param void
      * @return string
      */
-    public static function render($view, array $args)
+    public static function render(Path $path, $view, array $args)
     {
+        static::$path = $path->path;
         static::$filename = $view;
         static::setContent();
         static::setTemporaryContent($args);
@@ -200,7 +210,7 @@ class Helix
             $$key = $value;    
         }
         ob_start();
-        include_once(__DIR__ . '/../../app/resources/cache/' . static::$cachedFile);
+        include_once(static::$path . '/app/resources/cache/' . static::$cachedFile);
         $z = ob_get_contents();
         ob_end_clean();
         static::deleteCachedFile();
@@ -215,6 +225,6 @@ class Helix
      */
     public function deleteCachedFile()
     {
-        unlink(__DIR__ . '/../../app/resources/cache/' . static::$cachedFile);
+        unlink(static::$path . '/app/resources/cache/' . static::$cachedFile);
     }
 }

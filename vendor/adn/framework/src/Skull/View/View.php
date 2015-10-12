@@ -3,6 +3,7 @@
 namespace Skull\View;
 
 use Skull\Helix\Helix;
+use Skull\Http\Path;
 
 class View extends Helix
 {
@@ -14,6 +15,7 @@ class View extends Helix
      */
     public static function make()
     {
+        $path = new Path();
         $error = null;
         $args = func_get_args();
         $view = $args[0];
@@ -22,13 +24,13 @@ class View extends Helix
             $viewArray = explode('.', $view);
             if(count($viewArray) < 2)
             {
-                if(@!include_once(__DIR__ . "/../../app/resources/views/" . $viewArray[0] . '.php'))
+                if(@!include_once($path->path . "/app/resources/views/" . $viewArray[0] . '.php'))
                 {        
                     $error = "Error : Template " . $viewArray[0] . " doesn't found in resources/views/" . "\n";
                     echo $error;    
                 }
             } elseif(count($viewArray) === 2) {
-                if(@!include_once(__DIR__ . "/../../app/resources/views/" . $viewArray[0] . "/" . $viewArray[1] . '.php'))
+                if(@!include_once($path->path . "/app/resources/views/" . $viewArray[0] . "/" . $viewArray[1] . '.php'))
                 {
                     $error = "Error : Template " . $viewArray[1] . " doesn't found in resources/views/" . $viewArray[0] . "\n";
                     echo $error;    
@@ -38,11 +40,11 @@ class View extends Helix
             $viewArray = explode('.', $view);
             if(count($viewArray) < 2)
             {
-                $viewRender = __DIR__ . "/../../app/resources/views/" . $viewArray[0] . '.php';
+                $viewRender = $path->path . "/app/resources/views/" . $viewArray[0] . '.php';
             } else {
-                $viewRender = __DIR__ . "/../../app/resources/views/" . $viewArray[0] . "/" . $viewArray[1] . '.php';
+                $viewRender = $path->path . "/app/resources/views/" . $viewArray[0] . "/" . $viewArray[1] . '.php';
             }
-            $result = static::render($viewRender, $args[1]);
+            $result = static::render($path, $viewRender, $args[1]);
             echo $result;
         }
     }

@@ -67,7 +67,7 @@ class ADN
      */
     private static function runController($controller, $method, $parameters=null)
     {
-        include_once(__DIR__ . "/../../app/Controllers/" . $controller . '.php');
+        include_once(__DIR__ . "/../../../../../../app/Controllers/" . $controller . '.php');
         $class = 'Skull\\Controller\\' . $controller;
         $object = new $class();
         if(method_exists($object, $method))

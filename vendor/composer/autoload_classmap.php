@@ -6,4 +6,23 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Colors' => $vendorDir . '/adn/framework/src/Skull/Genetic/bin/Colors.php',
+    'Skull\\Controller\\Controller' => $vendorDir . '/adn/framework/src/Skull/Controller/Controller.php',
+    'Skull\\Controller\\TO' => $vendorDir . '/adn/framework/src/Skull/Genetic/bin/Controller.php',
+    'Skull\\Database\\Base' => $vendorDir . '/adn/framework/src/Skull/Database/Base.php',
+    'Skull\\Database\\Connect' => $vendorDir . '/adn/framework/src/Skull/Database/Connect.php',
+    'Skull\\Database\\ConnectFactory' => $vendorDir . '/adn/framework/src/Skull/Database/ConnectFactory.php',
+    'Skull\\Database\\Migrations\\Migration' => $vendorDir . '/adn/framework/src/Skull/Database/Migrations/Migration.php',
+    'Skull\\Database\\Sequence\\Sequence' => $vendorDir . '/adn/framework/src/Skull/Database/Sequence/Sequence.php',
+    'Skull\\Database\\StaticBaseMethodesTrait' => $vendorDir . '/adn/framework/src/Skull/Database/StaticBaseMethodesTrait.php',
+    'Skull\\Helix\\Helix' => $vendorDir . '/adn/framework/src/Skull/Helix/Helix.php',
+    'Skull\\Http\\Path' => $vendorDir . '/adn/framework/src/Skull/Http/Path.php',
+    'Skull\\Http\\Request' => $vendorDir . '/adn/framework/src/Skull/Http/Request.php',
+    'Skull\\Kernel\\ADN' => $vendorDir . '/adn/framework/src/Skull/Kernel/ADN.php',
+    'Skull\\Routing\\Route' => $vendorDir . '/adn/framework/src/Skull/Routing/Route.php',
+    'Skull\\Routing\\Router' => $vendorDir . '/adn/framework/src/Skull/Routing/Router.php',
+    'Skull\\View\\View' => $vendorDir . '/adn/framework/src/Skull/View/View.php',
+    'TO' => $vendorDir . '/adn/framework/src/Skull/Genetic/bin/Migration.php',
+    'app\\Models\\TO' => $vendorDir . '/adn/framework/src/Skull/Genetic/bin/Model.php',
+    'app\\Models\\User' => $baseDir . '/app/Models/User.php',
 );

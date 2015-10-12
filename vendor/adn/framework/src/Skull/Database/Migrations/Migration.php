@@ -44,7 +44,7 @@ class Migration
     {
         $this->connect = ConnectFactory::getConnect();
         $this->table = $table;
-        $this->request = "CREATE TABLE " . $this->table . "(id int(11) PRIMARY KEY NOT NULL,";
+        $this->request = "CREATE TABLE " . $this->table . "(id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,";
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Skull\Database;
 
 use PDO;
+use Skull\Http\Path;
 
 class Connect
 {
@@ -61,30 +62,12 @@ class Connect
      */
     private function getVariables()
     {
-        $realPath = __DIR__;
-        $file = file_get_contents($realPath."/../../.env");
-        $env = explode("\n", $file);
-        array_pop($env);
-
-        for($i = 0; $i < count($env); $i++)
-        {
-            $env[$i] = explode("=", $env[$i]);
-            switch($i)
-            {
-                case 0:
-                    $this->host = $env[$i][1];
-                    break;
-                case 1:
-                    $this->database = $env[$i][1];
-                    break;
-                case 2:
-                    $this->user = $env[$i][1];
-                    break;
-                case 3:
-                    $this->password = $env[$i][1];
-                    break;
-            }
-        }
+        $realPath = new Path;
+        include_once $realPath->path . "/config/database.php";
+        $this->host = $database['host'];
+        $this->database = $database['database'];
+        $this->user = $database['user'];
+        $this->password = $database['password'];
         return $this;
     }
 

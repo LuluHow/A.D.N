@@ -1,6 +1,7 @@
 <?php
 
 $make = explode(':', $argv[1]);
+
 switch($make[0])
 {
     case "server":
@@ -8,7 +9,7 @@ switch($make[0])
         shell_exec('php -S localhost:3000');
         break;
     case "controller":
-        $tmpFile = file_get_contents(__DIR__ . '/Skull/Genetic/bin/Controller.php');
+        $tmpFile = file_get_contents(__DIR__ . '/vendor/adn/framework/src/Skull/Genetic/bin/Controller.php');
         $tmpFile = str_replace('TO REMPLACE', $make[1], $tmpFile);
         $output = __DIR__ . '/app/Controllers/' . $make[1] . '.php';
         file_put_contents($output, $tmpFile);
@@ -19,14 +20,15 @@ switch($make[0])
         {
             if($argv[2] === "--with-model")
             {
-                $tmpFile = file_get_contents(__DIR__ . '/Skull/Genetic/bin/Model.php');
-                $tmpFile = str_replace('TO REMPLACE', ucfirst($make[1]), $tmpFile);
-                $output = __DIR__ . '/app/models/' . ucfirst($make[1]) . '.php';
+                $tmpFile = file_get_contents(__DIR__ . '/vendor/adn/framework/src/Skull/Genetic/bin/Model.php');
+                $maker = substr($make[1], 0, -1);
+                $tmpFile = str_replace('TO REMPLACE', ucfirst($maker), $tmpFile);
+                $output = __DIR__ . '/app/models/' . ucfirst($maker) . '.php';
                 file_put_contents($output, $tmpFile);
-                echo "\033[32mFile " . ucfirst($make[1]) . ".php successfully created in app/models\033[0m" . "\n";
+                echo "\033[32mFile " . ucfirst($maker) . ".php successfully created in app/models\033[0m" . "\n";
             }
         }
-        $tmpFile = file_get_contents(__DIR__ . '/Skull/Genetic/bin/Migration.php');
+        $tmpFile = file_get_contents(__DIR__ . '/vendor/adn/framework/src/Skull/Genetic/bin/Migration.php');
         $tmpFile = str_replace('TO REMPLACE', ucfirst($make[1]), $tmpFile);
         $tmpFile = str_replace('TO REPLACE', $make[1], $tmpFile);
         $output = __DIR__ . '/app/database/migrations/' . @date('Y-m-d') . '_create_table_' . $make[1] . '.php';
@@ -34,7 +36,7 @@ switch($make[0])
         echo "\033[32mMigration " . @date('Y-m-d') . "_create_table_" . $make[1] . ".php successfully created in app/database/migrations\033[0m" . "\n";
         break;
     case "model":
-        $tmpFile = file_get_contents(__DIR__ . '/Skull/Genetic/bin/Model.php');
+        $tmpFile = file_get_contents(__DIR__ . '/vendor/adn/framework/src/Skull/Genetic/bin/Model.php');
         $tmpFile = str_replace('TO REMPLACE', $make[1], $tmpFile);
         $output = __DIR__ . '/app/models/' . $make[1] . '.php';
         file_put_contents($output, $tmpFile);
@@ -44,10 +46,11 @@ switch($make[0])
         switch($make[1])
         {
             case "migrate":
-                require_once(__DIR__ . '/Skull/Database/Migrations/Migration.php');
-                require_once(__DIR__ . '/Skull/Database/Connect.php');
-                require_once(__DIR__ . '/Skull/Database/ConnectFactory.php');
+                require_once(__DIR__ . '/vendor/adn/framework/src/Skull/Database/Migrations/Migration.php');
+                require_once(__DIR__ . '/vendor/adn/framework/src/Skull/Database/Connect.php');
+                require_once(__DIR__ . '/vendor/adn/framework/src/Skull/Database/ConnectFactory.php');
                 $scan = scandir(__DIR__ . "/app/database/migrations");
+                array_shift($scan);
                 array_shift($scan);
                 array_shift($scan);
                 foreach($scan AS $file)

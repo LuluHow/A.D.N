@@ -14,7 +14,10 @@
         "php": ">=5.5.9",
         "twbs/bootstrap": "*"
      },
-    "replace": {
-	"a.d.n/a.d.n": "self.version"	
-    }
+     "autoload": {
+        "classmap": [
+            "vendor/adn/framework/src",
+            "app/Models"
+        ]
+     }
 }
