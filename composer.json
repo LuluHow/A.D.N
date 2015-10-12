@@ -1,0 +1,13 @@
+{
+    "name": "root/a.d.n",
+    "description": "A PHP microframework for create web applications.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ludovic Horem",
+            "email": "ludo.horem@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
