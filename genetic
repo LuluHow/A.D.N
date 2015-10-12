@@ -3,6 +3,10 @@
 $make = explode(':', $argv[1]);
 switch($make[0])
 {
+    case "server":
+	echo "\033[32mStarted development on http://localhost:3000\033[0m" . "\n";
+        shell_exec('php -S localhost:3000');
+        break;
     case "controller":
         $tmpFile = file_get_contents(__DIR__ . '/Skull/Genetic/bin/Controller.php');
         $tmpFile = str_replace('TO REMPLACE', $make[1], $tmpFile);
