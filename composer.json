@@ -1,5 +1,5 @@
 {
-    "name": "a.d.n/a.d.n",
+    "name": "adn/adn",
     "description": "A PHP microframework for create web applications.",
     "license": "MIT",
     "authors": [
@@ -12,5 +12,8 @@
     "require": {
         "php": ">=5.5.9",
         "twbs/bootstrap": "*"
-     }
+     },
+    "replace": {
+	"a.d.n/a.d.n": "self.version"	
+    }
 }
