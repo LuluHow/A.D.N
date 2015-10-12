@@ -1,0 +1,64 @@
+<?php
+
+$make = explode(':', $argv[1]);
+switch($make[0])
+{
+    case "controller":
+        $tmpFile = file_get_contents(__DIR__ . '/Skull/Genetic/bin/Controller.php');
+        $tmpFile = str_replace('TO REMPLACE', $make[1], $tmpFile);
+        $output = __DIR__ . '/app/Controllers/' . $make[1] . '.php';
+        file_put_contents($output, $tmpFile);
+        echo "\033[32mFile " . $make[1] . ".php successfully created in app/Controllers\033[0m" . "\n";
+        break;
+    case "migration":
+        if(array_key_exists(2, $argv))
+        {
+            if($argv[2] === "--with-model")
+            {
+                $tmpFile = file_get_contents(__DIR__ . '/Skull/Genetic/bin/Model.php');
+                $tmpFile = str_replace('TO REMPLACE', ucfirst($make[1]), $tmpFile);
+                $output = __DIR__ . '/app/models/' . ucfirst($make[1]) . '.php';
+                file_put_contents($output, $tmpFile);
+                echo "\033[32mFile " . ucfirst($make[1]) . ".php successfully created in app/models\033[0m" . "\n";
+            }
+        }
+        $tmpFile = file_get_contents(__DIR__ . '/Skull/Genetic/bin/Migration.php');
+        $tmpFile = str_replace('TO REMPLACE', ucfirst($make[1]), $tmpFile);
+        $tmpFile = str_replace('TO REPLACE', $make[1], $tmpFile);
+        $output = __DIR__ . '/app/database/migrations/' . @date('Y-m-d') . '_create_table_' . $make[1] . '.php';
+        file_put_contents($output, $tmpFile);
+        echo "\033[32mMigration " . @date('Y-m-d') . "_create_table_" . $make[1] . ".php successfully created in app/database/migrations\033[0m" . "\n";
+        break;
+    case "model":
+        $tmpFile = file_get_contents(__DIR__ . '/Skull/Genetic/bin/Model.php');
+        $tmpFile = str_replace('TO REMPLACE', $make[1], $tmpFile);
+        $output = __DIR__ . '/app/models/' . $make[1] . '.php';
+        file_put_contents($output, $tmpFile);
+        echo "\033[32mFile " . $make[1] . ".php successfully created in app/models\033[0m" . "\n";
+        break;
+    case "db":
+        switch($make[1])
+        {
+            case "migrate":
+                require_once(__DIR__ . '/Skull/Database/Migrations/Migration.php');
+                require_once(__DIR__ . '/Skull/Database/Connect.php');
+                require_once(__DIR__ . '/Skull/Database/ConnectFactory.php');
+                $scan = scandir(__DIR__ . "/app/database/migrations");
+                array_shift($scan);
+                array_shift($scan);
+                foreach($scan AS $file)
+                {
+                    $arrayToClass = explode('table_', $file);
+                    array_shift($arrayToClass);
+                    $className = explode('.php', $arrayToClass[0]);
+                    $className = join('', $className);
+                    $table = $className;
+                    $className = ucfirst($className);
+                    include_once(__DIR__ . "/app/database/migrations/" . $file);
+                    $object = new $className($table);
+                    $object->migrate();
+                }
+                echo "\033[32mMigrations successfully updated\033[0m" . "\n";
+                break;
+        }
+}
