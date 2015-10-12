@@ -3,6 +3,8 @@
 namespace Skull\Database\Migrations;
 
 use Skull\Database\ConnectFactory;
+use Skull\Database\Connect;
+use Skull\Http\Path;
 
 class Migration
 {

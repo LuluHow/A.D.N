@@ -51,7 +51,6 @@ class Connect
     public function __construct()
     {
         $this->getVariables()->connect();
-        return $this->getConnection();
     }
 
     /**
