@@ -48,6 +48,7 @@ switch($make[0])
             case "migrate":
                 require_once(__DIR__ . '/vendor/adn/framework/src/Skull/Database/Migrations/Migration.php');
                 require_once(__DIR__ . '/vendor/adn/framework/src/Skull/Database/Connect.php');
+                require_once(__DIR__ . '/vendor/adn/framework/src/Skull/Http/Path.php');
                 require_once(__DIR__ . '/vendor/adn/framework/src/Skull/Database/ConnectFactory.php');
                 $scan = scandir(__DIR__ . "/app/database/migrations");
                 array_shift($scan);

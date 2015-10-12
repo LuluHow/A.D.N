@@ -3,6 +3,7 @@
 namespace Skull\Database;
 
 use Skull\Database\Connect;
+use Skull\Http\Path;
 
 class ConnectFactory
 {
