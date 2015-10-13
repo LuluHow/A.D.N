@@ -1,8 +1,6 @@
 <?php
 
-namespace app\Models;
-
-use Skull\Database\Sequence\Sequence;
+namespace Skull\Database\Sequence;
 
 class TO REMPLACE extends Sequence
 {

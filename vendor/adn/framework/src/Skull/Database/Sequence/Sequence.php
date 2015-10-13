@@ -44,6 +44,10 @@ class Sequence
             static::construct($model);
         }
         $newObject = static::get();
+        if(count($newObject) < 2)
+        {
+            return [$newObject];
+        }
         return $newObject;
     }
 
