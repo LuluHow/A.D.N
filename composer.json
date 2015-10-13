@@ -16,8 +16,10 @@
      },
      "autoload": {
         "classmap": [
-            "vendor/adn/framework/src",
-            "app/Models"
-        ]
+            "vendor/adn/framework/src"
+        ],
+        "psr-4": {
+            "App\\": "app/"
+        }
      }
 }

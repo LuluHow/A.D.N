@@ -1,8 +1,8 @@
 <?php
 
-namespace Skull\Database\Sequence;
+namespace App\Models;
 
-class TO REMPLACE extends Sequence
+class TO REMPLACE extends RootModel
 {
         
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace Skull\Controller;
+namespace App\Controllers;
 
 use Skull\Http\Request;
 use Skull\View\View;
 
-class TO REMPLACE extends Controller
+class TO REMPLACE extends RootController
 {
 
     /**
