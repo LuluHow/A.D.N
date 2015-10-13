@@ -73,7 +73,7 @@ class Helix
      */
     public static function replaceSimpleBraces($var)
     {
-        preg_match_all('/(' . $var . '\.\S*)/', static::$tmpFileContent, $z);
+        preg_match_all('/(' . $var . '\.\S*?)/', static::$tmpFileContent, $z);
         if(count($z[0]) > 0)
         {
             $tmpVar = explode('.', $z[0][0]);
@@ -94,7 +94,7 @@ class Helix
      */
     public function preReplace()
     {
-        $pattern = '/{{ (.*) }}/';
+        $pattern = '/{{ (.*?) }}/';
         $replace = '<?php echo $$1; ?>';
         static::$tmpFileContent = preg_replace($pattern, $replace, static::$tmpFileContent);
     }
@@ -108,7 +108,7 @@ class Helix
     public static function replaceLoopStatements()
     {
         $z = static::$tmpFileContent;
-        preg_match_all('/{{ for (.*) in (.*) }}/', $z, $matches);
+        preg_match_all('/{{ for (.*?) in (.*?) }}/', $z, $matches);
         if(count($matches) > 0)
         {
             for($i = 0; $i < count($matches[0]); $i++)
