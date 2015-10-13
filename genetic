@@ -46,10 +46,10 @@ switch($make[0])
         switch($make[1])
         {
             case "migrate":
-                require_once(__DIR__ . '/vendor/adn/framework/src/Skull/Database/Migrations/Migration.php');
-                require_once(__DIR__ . '/vendor/adn/framework/src/Skull/Database/Connect.php');
                 require_once(__DIR__ . '/vendor/adn/framework/src/Skull/Http/Path.php');
+                require_once(__DIR__ . '/vendor/adn/framework/src/Skull/Database/Connect.php');
                 require_once(__DIR__ . '/vendor/adn/framework/src/Skull/Database/ConnectFactory.php');
+                require_once(__DIR__ . '/vendor/adn/framework/src/Skull/Database/Migrations/Migration.php');
                 $scan = scandir(__DIR__ . "/app/database/migrations");
                 array_shift($scan);
                 array_shift($scan);
@@ -63,8 +63,7 @@ switch($make[0])
                     $table = $className;
                     $className = ucfirst($className);
                     include_once(__DIR__ . "/app/database/migrations/" . $file);
-                    $object = new $className($table);
-                    $object->migrate();
+                    $className::migrate();
                 }
                 echo "\033[32mMigrations successfully updated\033[0m" . "\n";
                 break;

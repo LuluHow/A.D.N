@@ -8,7 +8,7 @@ class TO REMPLACE extends Migration
     /**
      * Create new migration.
      */
-    public function migrate()
+    public static function migrate()
     {
         $TO REPLACE = new Migration('TO REPLACE');
         $TO REPLACE->add()
@@ -19,7 +19,7 @@ class TO REMPLACE extends Migration
     /**
      * Reverse the migration.
      */
-    public function drop()
+    public static function drop()
     {
         $TO REPLACE = new Migration();
         $TO REPLACE->drop();

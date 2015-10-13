@@ -18,8 +18,10 @@ class Sequence
         $modelArray = explode("\\", $absoluteModel);
         $model = end($modelArray);
         $model = strtolower($model) . 's';
-
-        static::construct($model);
+        if(!static::$connect)
+        {
+            static::construct($model);
+        }
         static::insert($inputs);
         $newObject = static::findById(static::$lastInsert);
         return $newObject;
@@ -37,8 +39,10 @@ class Sequence
         $modelArray = explode("\\", $absoluteModel);
         $model = end($modelArray);
         $model = strtolower($model) . 's';
-
-        static::construct($model);   
+        if(!static::$connect)
+        {
+            static::construct($model);
+        }
         $newObject = static::get();
         return $newObject;
     }
@@ -57,8 +61,10 @@ class Sequence
         $modelArray = explode("\\", $absoluteModel);
         $model = end($modelArray);
         $model = strtolower($model) . 's';
-
-        static::construct($model);
+        if(!static::$connect)
+        {
+            static::construct($model);
+        }
         static::reset();
         
         if($limit)
