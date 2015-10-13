@@ -6,9 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Controllers\\TO' => $vendorDir . '/adn/framework/src/Skull/Genetic/bin/Controller.php',
+    'App\\Models\\TO' => $vendorDir . '/adn/framework/src/Skull/Genetic/bin/Model.php',
     'Colors' => $vendorDir . '/adn/framework/src/Skull/Genetic/bin/Colors.php',
     'Skull\\Controller\\Controller' => $vendorDir . '/adn/framework/src/Skull/Controller/Controller.php',
-    'Skull\\Controller\\TO' => $vendorDir . '/adn/framework/src/Skull/Genetic/bin/Controller.php',
     'Skull\\Database\\Base' => $vendorDir . '/adn/framework/src/Skull/Database/Base.php',
     'Skull\\Database\\Connect' => $vendorDir . '/adn/framework/src/Skull/Database/Connect.php',
     'Skull\\Database\\ConnectFactory' => $vendorDir . '/adn/framework/src/Skull/Database/ConnectFactory.php',
@@ -23,6 +24,4 @@ return array(
     'Skull\\Routing\\Router' => $vendorDir . '/adn/framework/src/Skull/Routing/Router.php',
     'Skull\\View\\View' => $vendorDir . '/adn/framework/src/Skull/View/View.php',
     'TO' => $vendorDir . '/adn/framework/src/Skull/Genetic/bin/Migration.php',
-    'app\\Models\\TO' => $vendorDir . '/adn/framework/src/Skull/Genetic/bin/Model.php',
-    'app\\Models\\User' => $baseDir . '/app/Models/User.php',
 );

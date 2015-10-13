@@ -70,19 +70,27 @@ class ADN
         include_once(__DIR__ . "/../../../../../../app/Controllers/" . $controller . '.php');
         $class = 'App\\Controllers\\' . $controller;
         $object = new $class();
+        $instanceOf = array();
         if(method_exists($object, $method))
         {
             $reflection = new \ReflectionMethod($object, $method);
             $z = $reflection->getParameters();
             foreach($z AS $k)
             {
-                if($k->getClass()->name === "Skull\\Http\\Request")
+                if($k->getClass()->name)
                 {
-                    array_unshift($parameters, static::$request);
+                    $className = $k->getClass()->name;
+                    if($className == "Skull\Http\\Request")
+                    {
+                        $o = static::$request;
+                    } else {
+                        $o = new $className();
+                    }
+                array_push($instanceOf, $o);
                 }
             }
-
-            echo call_user_func_array(array($object, $method), $parameters);
+            $results = array_merge($instanceOf, $parameters);
+            echo call_user_func_array(array($object, $method), $results);
             exit;
         }
     }
