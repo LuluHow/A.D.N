@@ -5,7 +5,7 @@ namespace Skull\Sessions;
 use Skull\Http\Path;
 use Skull\Genetic\RandomGenerator;
 
-class Session
+class RootSession
 {
     /**
      * Create new instance of Session.
@@ -40,7 +40,7 @@ class Session
     {
         if(isset($_SESSION[$key]) && !empty($_SESSION[$key]))
         {
-            echo 'Error : session key [$key] already exists';
+            echo "Error : session key [$key] already exists";
         } else {
             $_SESSION[$key] = $value;
             return $_SESSION[$key];
@@ -68,8 +68,9 @@ class Session
      */
     public function destroy($key)
     {
-        if(unset($_SESSION[$key]))
+        if(isset($_SESSION[$key]))
         {
+            unset($_SESSION[$key]);
             return true;    
         }
         return false;
@@ -87,7 +88,7 @@ class Session
         if(isset($_SESSION[$key]))
         {
             $value = $_SESSION[$key];
-            unset($_SESSION5$key);
+            unset($_SESSION[$key]);
             return $value;
         }
         return false;
@@ -126,7 +127,7 @@ class Session
      * @param void
      * @return int $timeExpire
      */
-    public getSessionTimeExpire()
+    public function getSessionTimeExpire()
     {
         $configPath = new Path;
 
