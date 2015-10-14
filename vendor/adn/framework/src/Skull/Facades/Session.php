@@ -1,6 +1,6 @@
 <?php
 
-namespace Help\Session;
+namespace Facades\Session;
 
 use Skull\Sessions\RootSession;
 
@@ -54,7 +54,7 @@ class Session
     public static function getAndDestroy($key)
     {
         $o = new RootSession;
-        $o->getAndDestroy($key);
+        return $o->getAndDestroy($key);
     }
 
     /**
@@ -78,6 +78,6 @@ class Session
     public static function get($key)
     {
         $o = new RootSession;
-        $o->get($key);
+        return $o->get($key);
     }
 }
