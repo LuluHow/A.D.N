@@ -131,7 +131,7 @@ class Session
         $configPath = new Path;
 
         include_once($configPath->path . '/config/sessions.php');
-        $timeExpire = $sessions['expire'];
+        $timeExpire = $sessions['expires'];
         return $timeExpire * 60;
     }
 }
