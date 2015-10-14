@@ -20,6 +20,9 @@
         ],
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "files": [
+            "vendor/adn/framework/src/Skull/Globals/Helpers.php"
+         ]
      }
 }

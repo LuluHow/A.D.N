@@ -1,7 +1,7 @@
 <?php
 
-use Skull\Routing\Route;
-use Skull\View\View;
+use Facades\Route;
+use Facades\View;
 
 Route::get('/', function() {
     return View::make('home');

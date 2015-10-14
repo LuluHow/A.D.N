@@ -5,77 +5,77 @@ namespace Skull\Database;
 use Skull\Database\ConnectFactory;
 use PDO;
 
-trait StaticBaseMethodesTrait
+trait BaseMethodesTrait
 {
      /**
      * Object contain connection.
      *
      * @var PDO 
      */
-    public static $connect;
+    public $connect;
 
     /**
      * Contain current request.
      *
      * @var PDO 
      */
-    public static $currentQuery;
+    public $currentQuery;
 
     /**
      * Contain the request.
      *
      * @var string
      */
-    public static $request;
+    public $request;
 
     /**
      * Contain the results.
      *
      * @var stdClass
      */
-    public static $data;
+    public $data;
 
     /**
      * Contain ID of last inserted row.
      *
      * @var int
      */
-    public static $lastInsert;
+    public $lastInsert;
 
     /**
      * Contain join clause(s)
      *
      * @var string
      */
-    public static $join;
+    public $join;
 
     /**
      * Contain current table for use.
      *
      * @var string
      */
-    public static $table;
+    public $table;
 
     /**
      * WHERE clause.
      *
      * @var string
      */
-    public static $clause;
+    public $clause;
 
     /**
      * Condition for WHERE clause.
      *
      * @var string
      */
-    public static $parameters;
+    public $parameters;
 
     /**
      * SELECT clause.
      *
      * @var string
      */
-    public static $select;
+    public $select;
 
     /**
      * Initialize model.
@@ -83,13 +83,13 @@ trait StaticBaseMethodesTrait
      * @param string $table
      * @return void
      */
-    public static function construct($table) 
+    public function construct($table) 
     {
-        static::$connect = ConnectFactory::getConnect();
-        static::$table = $table;
-        static::$select = null;
-        static::$clause = "";
-        static::$join = "";
+        $this->connect = ConnectFactory::getConnect();
+        $this->table = $table;
+        $this->select = null;
+        $this->clause = "";
+        $this->join = "";
     }
     
     /**
@@ -100,10 +100,10 @@ trait StaticBaseMethodesTrait
      * @param string $parameter
      * @return $this
      */
-    public static function where($clause, $operande, $parameter)
+    public function where($clause, $operande, $parameter)
     {
-        static::$clause = " WHERE " . $clause . " " . $operande . " ?";
-        static::$parameters = $parameter;
+        $this->clause = " WHERE " . $clause . " " . $operande . " ?";
+        $this->parameters = $parameter;
         return $this;
     }
 
@@ -113,19 +113,19 @@ trait StaticBaseMethodesTrait
      * @param int $limit
      * @return void
      */
-    public static function constructSelectRequest($limit = false)
+    public function constructSelectRequest($limit = false)
     {
         if($limit)
         {
             $limit = " LIMIT " . $limit;    
         }
-        if(static::$select == null && static::$request == null)
+        if($this->select == null && $this->request == null)
         {
-            static::$request = "SELECT * FROM " . static::$table . static::$join . static::$clause . $limit;
+            $this->request = "SELECT * FROM " . $this->table . $this->join . $this->clause . $limit;
         }
         else
         {
-            static::$request = static::$select . static::$table . static::$join . static::$clause . $limit;    
+            $this->request = $this->select . $this->table . $this->join . $this->clause . $limit;    
         }
     }
 
@@ -135,12 +135,12 @@ trait StaticBaseMethodesTrait
      * @param void
      * @return PDO $query
      */
-    public static function prepareRequest()
+    public function prepareRequest()
     {
         try
         {
-            static::$currentQuery = static::$connect->getConnection()->prepare(static::$request);
-            return static::$currentQuery;
+            $this->currentQuery = $this->connect->getConnection()->prepare($this->request);
+            return $this->currentQuery;
         }
         catch(Exception $e)
         {
@@ -154,19 +154,19 @@ trait StaticBaseMethodesTrait
      * @param void 
      * @return PDO $query
      */
-    public static function executeRequest()
+    public function executeRequest()
     {
         try 
         {
-            if(is_array(static::$parameters))
+            if(is_array($this->parameters))
             {
-                static::$currentQuery->execute(static::$parameters);
+                $this->currentQuery->execute($this->parameters);
             }
             else
             {
-                static::$currentQuery->execute(array(static::$parameters));
+                $this->currentQuery->execute(array($this->parameters));
             }
-            return static::$currentQuery;
+            return $this->currentQuery;
         }
         catch(Exception $e)
         {
@@ -180,21 +180,21 @@ trait StaticBaseMethodesTrait
      * @param int $limit
      * @return stdClass $data
      */
-    public static function get($limit = false)
+    public function get($limit = false)
     {
-        if(static::$request == null)
+        if($this->request == null)
         {
-            static::constructSelectRequest($limit);
+            $this->constructSelectRequest($limit);
         }
-        static::prepareRequest();
+        $this->prepareRequest();
         try
         {
-            static::$data = static::executeRequest()->fetchAll(PDO::FETCH_OBJ);
-            if(count(static::$data) < 2)
+            $this->data = $this->executeRequest()->fetchAll(PDO::FETCH_OBJ);
+            if(count($this->data) < 2)
             {
-                static::$data = static::$data[0];    
+                $this->data = $this->data[0];    
             }
-            return static::$data;
+            return $this->data;
         }
         catch(Exception $e)
         {
@@ -208,7 +208,7 @@ trait StaticBaseMethodesTrait
      * @param array $array
      * @return array $insertRows
      */
-    private static function constructInsertRequest(array $array)
+    private function constructInsertRequest(array $array)
     {
         $fields = "(";
         $values = "(";
@@ -229,8 +229,8 @@ trait StaticBaseMethodesTrait
             $insertRows[":" . $key] = $value;
             $i++;
         }
-        static::$request = "INSERT INTO " . static::$table . $fields . " VALUES" . $values;
-        static::$parameters = $insertRows;
+        $this->request = "INSERT INTO " . $this->table . $fields . " VALUES" . $values;
+        $this->parameters = $insertRows;
     }
 
     /**
@@ -239,14 +239,14 @@ trait StaticBaseMethodesTrait
      * @param array $array 
      * @return Base $this
      */ 
-    public static function insert(array $array)
+    public function insert(array $array)
     {
-        $insertRows = static::constructInsertRequest($array);
+        $insertRows = $this->constructInsertRequest($array);
         try
         {
-            static::prepareRequest();
-            static::executeRequest();
-            static::$lastInsert = static::$connect->getConnection()->lastInsertId();
+            $this->prepareRequest();
+            $this->executeRequest();
+            $this->lastInsert = $this->connect->getConnection()->lastInsertId();
             return $this;
         }
         catch(Exception $e)
@@ -261,19 +261,19 @@ trait StaticBaseMethodesTrait
      * @param variable
      * @return Base $this
      */
-    public static function select()
+    public function select()
     {
-        static::$select = "SELECT";
+        $this->select = "SELECT";
         $args = func_get_args();
         for($i = 0; $i < count($args); $i++)
         {
             if($args[$i] == end($args))
             {
-                static::$select .= " " . $args[$i] . " FROM ";
+                $this->select .= " " . $args[$i] . " FROM ";
             }
             else
             {
-                static::$select .= " " . $args[$i] . ",";
+                $this->select .= " " . $args[$i] . ",";
             }
         }
         return $this;
@@ -288,16 +288,16 @@ trait StaticBaseMethodesTrait
      * @param int [$limit=false]
      * @return stdClass $data
      */
-    public static function findBy($column, $value, $limit = false)
+    public function findBy($column, $value, $limit = false)
     {
-        static::reset();
+        $this->reset();
         
         if($limit)
         {
             $limit = " LIMIT " . $limit;    
         }
-        static::where($column, "=", $value);
-        return static::get();
+        $this->where($column, "=", $value);
+        return $this->get();
     }
 
     /**
@@ -307,6 +307,17 @@ trait StaticBaseMethodesTrait
      * @param array $args
      * @return Closure
      */
+    public function __call($name, $args)
+    {
+        $class = get_called_class();
+        if(substr($name, 0, 6) == 'findBy')
+        {
+            $field = strtolower(preg_replace('/\B([A-Z])/', '_${1}', substr($name, 6)));
+            array_unshift($args, $field);
+            return call_user_func_array(array($class, 'findBy'), $args);
+        }
+    }
+
     public static function __callStatic($name, $args)
     {
         $class = get_called_class();
@@ -324,9 +335,9 @@ trait StaticBaseMethodesTrait
      * @param void
      * @return int $lastInsert
      */
-    public static function lastInsertId()
+    public function lastInsertId()
     {
-        return static::$lastInsert;    
+        return $this->lastInsert;    
     }
 
     /**
@@ -335,13 +346,13 @@ trait StaticBaseMethodesTrait
      * @param void
      * @return void
      */
-    private static function reset()
+    private function reset()
     {
-        static::$select = null;
-        static::$clause = "";
-        static::$join = "";
-        static::$currentQuery = "";
-        static::$request = "";
-        static::$parameters = "";
+        $this->select = null;
+        $this->clause = "";
+        $this->join = "";
+        $this->currentQuery = "";
+        $this->request = "";
+        $this->parameters = "";
     }   
 }

@@ -2,14 +2,14 @@
 
 namespace Skull\Http;
 
-class Redirection
+class RootRedirection
 {
     /**
      * Url to redirect.
      *
      * @var string
      */
-    public static $url;
+    public $url;
 
     /**
      * Create new instance of Redirection.
@@ -28,7 +28,7 @@ class Redirection
      * @param string $url
      * @return string
      */
-    public static function filterUrl($url)
+    public function filterUrl($url)
     {
         return filter_var($url, FILTER_SANITIZE_URL);
     }
@@ -39,9 +39,9 @@ class Redirection
      * @param string $url
      * @return void
      */
-    public static function to($url)
+    public function to($url)
     {
-        $epurUrl = static::filterUrl($url);
+        $epurUrl = $this->filterUrl($url);
         header("Location: " . $epurUrl, true, 302);
         exit();
     }

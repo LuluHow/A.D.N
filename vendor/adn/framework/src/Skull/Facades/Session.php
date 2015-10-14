@@ -1,6 +1,6 @@
 <?php
 
-namespace Facades\Session;
+namespace Facades;
 
 use Skull\Sessions\RootSession;
 
@@ -79,5 +79,17 @@ class Session
     {
         $o = new RootSession;
         return $o->get($key);
+    }
+
+    /**
+     * Hydrate object with all session values.
+     *
+     * @param void
+     * @return Session $object
+     */
+    public static function hydrate()
+    {
+        $o = new RootSession;
+        return $o->hydrate();
     }
 }

@@ -13,19 +13,24 @@ class RootSession
      * @param void
      * @return void
      */
-    public function __construct()
+    public function __construct($flag = true)
     {
-        $generator = new RandomGenerator;
-
-        $time = $this->getSessionTimeExpire();
-
-        if(isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $time))
+        if($flag)
         {
-            session_unset();
-            session_destroy();
-        } else {
-            $_SESSION['last_activity'] = time();
-            $_SESSION['_id'] = $generator->string(20);
+            $generator = new RandomGenerator;
+
+            $time = $this->getSessionTimeExpire();
+
+            if(isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $time))
+            {
+                session_unset();
+                session_destroy();
+            } elseif(!isset($_SESSION['_id'])) {
+                $_SESSION['last_activity'] = time();
+                $_SESSION['_id'] = $generator->string(20);
+            } else {
+                $_SESSION['last_activity'] = time();
+            }
         }
     }
 
@@ -41,6 +46,7 @@ class RootSession
         if(isset($_SESSION[$key]) && !empty($_SESSION[$key]))
         {
             echo "Error : session key [$key] already exists";
+            exit();
         } else {
             $_SESSION[$key] = $value;
             return $_SESSION[$key];
@@ -119,6 +125,21 @@ class RootSession
             return $_SESSION[$key];
         }
         return false;
+    }
+
+    /**
+     * Hydrate object with all session values.
+     *
+     * @param void
+     * @return Session $object
+     */
+    public function hydrate()
+    {
+        foreach($_SESSION as $key => $value)
+        {
+            $this->$key = $value;
+        }
+        return $this;
     }
 
     /**

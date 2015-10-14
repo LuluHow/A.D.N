@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Skull\Database\Sequence\Sequence;
+use Facades\Sequence;
 
 class RootModel extends Sequence
 {

@@ -1,8 +1,8 @@
 <?php
 
 $database = [
-    "host"      => "my_host",
-    "database"  => "my_base",
-    "user"      => "my_user",
-    "password"  => "my_password"
+    "host"      => "127.0.0.1",
+    "database"  => "adn",
+    "user"      => "root",
+    "password"  => "root"
 ];

@@ -5,7 +5,7 @@ namespace Skull\View;
 use Skull\Helix\Helix;
 use Skull\Http\Path;
 
-class View extends Helix
+class RootView extends Helix
 {
     /**
      * Pass variables to template view.
@@ -13,11 +13,10 @@ class View extends Helix
      * @param mixed
      * @return void
      */
-    public static function make()
+    public function make($args)
     {
         $path = new Path();
         $error = null;
-        $args = func_get_args();
         $view = $args[0];
         if(count($args) < 2)
         {
@@ -44,7 +43,7 @@ class View extends Helix
             } else {
                 $viewRender = $path->path . "/app/resources/views/" . $viewArray[0] . "/" . $viewArray[1] . '.php';
             }
-            $result = static::render($path, $viewRender, $args[1]);
+            $result = $this->render($path, $viewRender, $args[1]);
             echo $result;
         }
     }

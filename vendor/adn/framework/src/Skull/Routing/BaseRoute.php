@@ -4,21 +4,21 @@ namespace Skull\Routing;
 
 use Skull\Kernel\ADN;
 
-class Route
+class BaseRoute
 {
     /**
      * Requested URI.
      *
      * @var string
      */
-    protected static $uri;
+    protected $uri;
 
     /**
      * Handler.
      *
      * @var mixed
      */
-    protected static $action;
+    protected $action;
 
     /**
      * Create new Route instance.
@@ -35,7 +35,7 @@ class Route
      * @param Closure $action
      * @return void
      */
-    public static function get($uri, $action)
+    public function get($uri, $action)
     {
         ADN::dispatch($uri, $action, "GET");
     }
@@ -47,7 +47,7 @@ class Route
      * @param Closure $action
      * @return void
      */
-    public static function post($uri, $action)
+    public function post($uri, $action)
     {
         ADN::dispatch($uri, $action, "POST");
     }
@@ -58,7 +58,7 @@ class Route
      * @param Closure $action
      * @return void
      */
-    public static function otherwise($action) {
+    public function otherwise($action) {
         ADN::runCallable($action, array()); 
     }
 }

@@ -2,9 +2,20 @@
 
 namespace Skull\Database\Sequence;
 
-class Sequence
+class RootSequence
 {
-    use \Skull\Database\StaticBaseMethodesTrait;
+    use \Skull\Database\BaseMethodesTrait;
+
+    /**
+     * Create new instance of Sequence.
+     *
+     * @param void
+     * @return void
+     */
+    public function __construct()
+    {
+        //    
+    }
 
     /**
      * Create new entry.
@@ -12,18 +23,17 @@ class Sequence
      * @param array $inputs
      * @return Model
      */
-    public static function create(array $inputs)
+    public function create(array $inputs, $absoluteModel)
     {
-        $absoluteModel = get_called_class();
         $modelArray = explode("\\", $absoluteModel);
         $model = end($modelArray);
         $model = strtolower($model) . 's';
-        if(!static::$connect)
+        if(!$this->connect)
         {
-            static::construct($model);
+            $this->construct($model);
         }
-        static::insert($inputs);
-        $newObject = static::findById(static::$lastInsert);
+        $this->insert($inputs);
+        $newObject = $this->findById($this->lastInsert, false, $model);
         return $newObject;
     }
 
@@ -33,17 +43,16 @@ class Sequence
      * @param void
      * @return Model
      */
-    public static function all()
+    public function all($absoluteModel)
     {
-        $absoluteModel = get_called_class();
         $modelArray = explode("\\", $absoluteModel);
         $model = end($modelArray);
         $model = strtolower($model) . 's';
-        if(!static::$connect)
+        if(!$this->connect)
         {
-            static::construct($model);
+            $this->construct($model);
         }
-        $newObject = static::get();
+        $newObject = $this->get();
         if(count($newObject) < 2)
         {
             return [$newObject];
@@ -59,24 +68,23 @@ class Sequence
      * @param optionnal
      * @return Model
      */
-    public static function findBy($column, $value, $limit = false)
+    public function findBy($column, $value, $limit = false, $absoluteModel)
     {
-        $absoluteModel = get_called_class();
         $modelArray = explode("\\", $absoluteModel);
         $model = end($modelArray);
         $model = strtolower($model) . 's';
-        if(!static::$connect)
+        if(!$this->connect)
         {
-            static::construct($model);
+            $this->construct($model);
         }
-        static::reset();
+        $this->reset();
         
         if($limit)
         {
             $limit = " LIMIT " . $limit;    
         }
-        static::where($column, "=", $value);
-        $newObject = static::get();
+        $this->where($column, "=", $value);
+        $newObject = $this->get();
         return $newObject;
     }
 }
