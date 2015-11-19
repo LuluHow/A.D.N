@@ -150,9 +150,8 @@ class RootSession
      */
     public function getSessionTimeExpire()
     {
-        $configPath = new Path;
-
-        include_once($configPath->path . '/config/sessions.php');
+        $base_path = new Path;
+        include $base->path . '/config/sessions.php';
         $timeExpire = $sessions['expires'];
         return $timeExpire * 60;
     }

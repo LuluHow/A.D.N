@@ -63,7 +63,7 @@ class Connect
     private function getVariables()
     {
         $realPath = new Path;
-        include_once $realPath->path . "/config/database.php";
+        include $realPath->path . "/config/database.php";
         $this->host = $database['host'];
         $this->database = $database['database'];
         $this->user = $database['user'];

@@ -62,7 +62,6 @@ class Helix
     public static function setContent()
     {
         static::$tmpFileContent = file_get_contents(static::$filename);
-        return $this;
     }
 
     /**
@@ -82,8 +81,6 @@ class Helix
         } else {
             static::$tmpFileContent = str_replace('{{ ' . $var . ' }}', '<?php echo $' . $var . ' ?>', static::$tmpFileContent);
         }
-
-        return $this;
     }
 
     /**
@@ -92,7 +89,7 @@ class Helix
      * @param void
      * @return void
      */
-    public function preReplace()
+    public static function preReplace()
     {
         $pattern = '/{{ (.*?) }}/';
         $replace = '<?php echo $$1; ?>';
@@ -124,8 +121,6 @@ class Helix
             }
         }
         static::$tmpFileContent = $z;
-
-        return $this;
     }
 
     /**
@@ -223,7 +218,7 @@ class Helix
      * @param void
      * @return void
      */
-    public function deleteCachedFile()
+    public static function deleteCachedFile()
     {
         unlink(static::$path . '/app/resources/cache/' . static::$cachedFile);
     }

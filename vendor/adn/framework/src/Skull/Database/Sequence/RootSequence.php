@@ -2,6 +2,8 @@
 
 namespace Skull\Database\Sequence;
 
+use stdClass;
+
 class RootSequence
 {
     use \Skull\Database\BaseMethodesTrait;
@@ -86,5 +88,50 @@ class RootSequence
         $this->where($column, "=", $value);
         $newObject = $this->get();
         return $newObject;
+    }
+
+    public function save(stdClass $object, $absoluteModel)
+    {
+        $parameters = [];
+        $modelArray = explode("\\", $absoluteModel);
+        $model = end($modelArray);
+        $model = strtolower($model) . 's';
+        if(!$this->connect)
+        {
+            $this->construct($model);
+        }
+        $this->reset();
+        
+        $query = 'UPDATE ' . $model . ' SET ';
+        foreach($object as $key => $value)
+        {
+            if($value === end($object))
+            {
+                $query .= $key . '=:' . $key . ' WHERE id=:id';
+            } else {
+                $query .= $key . '=:' . $key . ', ';
+            }
+            $parameters[':' . $key] = $value;
+        }
+        $req = $this->connect->getConnection()->prepare($query);
+        $req->execute($parameters);
+        return true;
+    }
+
+    public function destroy(stdClass $object, $absoluteModel)
+    {
+        $modelArray = explode("\\", $absoluteModel);
+        $model = end($modelArray);
+        $model = strtolower($model) . 's';
+        if(!$this->connect)
+        {
+            $this->construct($model);
+        }
+        $this->reset();
+        $req = $this->connect->getConnection()->prepare('DELETE FROM ' . $model . ' WHERE id = ?');
+
+        $req->execute(array($object->id));
+
+        return true;
     }
 }

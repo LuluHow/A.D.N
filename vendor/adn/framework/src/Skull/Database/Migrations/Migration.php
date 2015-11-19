@@ -2,7 +2,7 @@
 
 namespace Skull\Database\Migrations;
 
-use Skull\Database\ConnectFactory;
+use Skull\Database\Connect;
 
 class Migration
 {
@@ -42,7 +42,8 @@ class Migration
      */
     public function __construct($table)
     {
-        $this->connect = ConnectFactory::getConnect();
+        $o = new Connect;
+        $this->connect = $o->getConnection();
         $this->table = $table;
         $this->request = "CREATE TABLE " . $this->table . "(id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,";
     }
@@ -83,7 +84,7 @@ class Migration
     {
         $this->request = substr($this->request, 0, -1);
         $this->request .= ')';
-        $query = $this->connect->getConnection()->prepare($this->request);
+        $query = $this->connect->prepare($this->request);
         if($query->execute())
         {
             return true;    

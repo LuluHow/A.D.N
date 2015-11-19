@@ -190,7 +190,7 @@ trait BaseMethodesTrait
         try
         {
             $this->data = $this->executeRequest()->fetchAll(PDO::FETCH_OBJ);
-            if(count($this->data) < 2)
+            if(count($this->data) === 1)
             {
                 $this->data = $this->data[0];    
             }

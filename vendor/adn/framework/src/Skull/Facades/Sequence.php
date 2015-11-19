@@ -2,6 +2,7 @@
 
 namespace Facades;
 
+use stdClass;
 use Skull\Database\Sequence\RootSequence;
 
 class Sequence
@@ -18,6 +19,20 @@ class Sequence
         $model = get_called_class();
         $o = new RootSequence;
         return $o->all($model);
+    }
+
+    public static function save(stdClass $object)
+    {
+        $model = get_called_class();
+        $o = new RootSequence;
+        return $o->save($object, $model);
+    }
+
+    public static function destroy(stdClass $object)
+    {
+        $model = get_called_class();
+        $o = new RootSequence;
+        return $o->destroy($object, $model);
     }
 
     public static function findBy($column, $value, $limit = false)

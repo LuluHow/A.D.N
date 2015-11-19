@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use Skull\Http\Request;
-use Facades\View;
+use Skull\View\View;
 
 class TO REMPLACE extends RootController
 {

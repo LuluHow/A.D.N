@@ -77,16 +77,20 @@ class ADN
             $z = $reflection->getParameters();
             foreach($z AS $k)
             {
-                if($k->getClass()->name)
+                $x = $k->getClass();
+                if($x !== null)
                 {
-                    $className = $k->getClass()->name;
-                    if($className == "Skull\Http\\Request")
+                    if($k->getClass()->name)
                     {
-                        $o = static::$request;
-                    } else {
-                        $o = new $className();
+                        $className = $k->getClass()->name;
+                        if($className == "Skull\Http\\Request")
+                        {
+                            $o = static::$request;
+                        } else {
+                            $o = new $className();
+                        }
+                        array_push($instanceOf, $o);
                     }
-                array_push($instanceOf, $o);
                 }
             }
             $results = array_merge($instanceOf, $parameters);
